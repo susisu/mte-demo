@@ -15,5 +15,17 @@
   "bugs": {
     "url": "https://github.com/susisu/mte-demo/issues"
   },
-  "homepage": "https://github.com/susisu/mte-demo#readme"
+  "homepage": "https://github.com/susisu/mte-demo#readme",
+  "dependencies": {
+    "@susisu/mte-kernel": "^1.0.0",
+    "codemirror": "^5.31.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "eslint": "^4.11.0",
+    "npm-run-all": "^4.1.2",
+    "rimraf": "^2.6.2",
+    "webpack": "^3.8.1"
+  }
 }

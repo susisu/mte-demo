@@ -12,7 +12,7 @@ module.exports = {
   context: __dirname,
   devtool: DEVELOPMENT ? "inline-source-map" : "",
   entry  : {
-    main: "./src//main.js"
+    main: ["babel-polyfill", "./src/main.js"]
   },
   output: {
     path    : path.resolve(__dirname, "build"),
@@ -32,8 +32,7 @@ module.exports = {
               ["env", {
                 targets: {
                   browsers: "last 2 versions"
-                },
-                useBuiltIns: true
+                }
               }]
             ]
           }

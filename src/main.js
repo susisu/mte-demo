@@ -1,5 +1,3 @@
-import "babel-polyfill";
-
 import codeMirror from "codemirror";
 import { ITextEditor, TableEditor, Point, options, Alignment } from "@susisu/mte-kernel";
 
@@ -120,15 +118,50 @@ class TextEditorInterface extends ITextEditor {
   }
 }
 
-window.addEventListener("load", () => {
+const pageLoad = new Promise(resolve => {
+  function listener() {
+    window.removeEventListener("load", listener);
+    resolve();
+  }
+  window.addEventListener("load", listener);
+});
+
+function loadText(path) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    function onLoad() {
+      resolve(xhr.responseText);
+      xhr.removeEventListener("load", onLoad);
+      xhr.removeEventListener("error", onError);
+      xhr.removeEventListener("abort", onError);
+    }
+    function onError() {
+      resolve("");
+      xhr.removeEventListener("load", onLoad);
+      xhr.removeEventListener("error", onError);
+      xhr.removeEventListener("abort", onError);
+    }
+    xhr.addEventListener("load", onLoad);
+    xhr.addEventListener("error", onError);
+    xhr.addEventListener("abort", onError);
+    xhr.responseType = "text";
+    xhr.open("GET", path);
+    xhr.send();
+  });
+}
+
+async function init() {
+  await pageLoad;
   const wrapper = document.getElementById("editor");
   if (!wrapper) {
     return;
   }
+  const defaultText = await loadText("default.md");
   // create a text editor
   const editor = codeMirror(wrapper, {
     theme         : "monokai",
     mode          : "markdown",
+    value         : defaultText,
     lineSeparator : null,
     indentUnit    : 2,
     smartIndent   : true,
@@ -212,4 +245,6 @@ window.addEventListener("load", () => {
   editorIntf.onDidFinishTransaction = () => {
     updateActiveState();
   };
-});
+}
+
+init();

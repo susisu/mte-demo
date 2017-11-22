@@ -9,8 +9,10 @@
     "build:release": "cross-env NODE_ENV=production webpack",
     "build:debug": "cross-env NODE_ENV=development webpack",
     "build": "npm run build:release",
+    "copy": "cpx 'node_modules/codemirror/lib/*' build/cm && cpx 'node_modules/codemirror/mode/markdown/*' build/cm/mode && cpx 'node_modules/codemirror/theme/monokai.css' build/cm/theme",
     "clean": "rimraf build",
-    "prepare": "run-s lint build"
+    "prepare": "run-s lint build copy",
+    "prepare:debug": "run-s build:debug copy"
   },
   "repository": {
     "type": "git",
@@ -31,6 +33,7 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
+    "cpx": "^1.5.0",
     "cross-env": "^5.1.1",
     "eslint": "^4.11.0",
     "npm-run-all": "^4.1.2",

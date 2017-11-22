@@ -1,3 +1,4 @@
+/* eslint-env node */
 /* eslint-disable strict */
 
 "use strict";
@@ -17,10 +18,13 @@ module.exports = {
     path    : path.resolve(__dirname, "build"),
     filename: "[name].bundle.js"
   },
+  externals: {
+    codemirror: "CodeMirror"
+  },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|mjs)$/,
         use : {
           loader : "babel-loader",
           options: {
